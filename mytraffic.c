@@ -66,9 +66,9 @@ static struct fasync_struct *async_queue;
 */
 
 static struct gpio leds_gpios[] = {
-        { 67, GPIOF_OUT_INIT_LOW, "Green LED" }, /*default to OFF*/
+        { 67, GPIOF_OUT_INIT_LOW, "Red LED" }, /*default to OFF*/
         { 68, GPIOF_OUT_INIT_LOW,  "Yellow LED" }, /*default to OFF*/
-        { 44, GPIOF_OUT_INIT_LOW,  "Red LED"   } /*default to OFF*/
+        { 44, GPIOF_OUT_INIT_LOW,  "Green LED"   } /*default to OFF*/
 };
 
 static struct gpio buttons_gpios[] = {
@@ -95,19 +95,58 @@ static void my_timer_callback(struct timer_list * data)
 
 
     
-    printk(KERN_ALERT " NORMAL MODE \n");
+    // printk(KERN_ALERT " NORMAL MODE \n");
     
 
-    if(mode ==0 )
-        printk(KERN_ALERT " NORMAL MODE \n");
-    else if(mode ==1)
-        printk(KERN_ALERT " RED FLASH MODE \n");
-    else
-        printk(KERN_ALERT " YELLOW FLASH MODE \n");
-
-    gpio_set_value(44, 1);
+    if(mode ==0){
+        // printk(KERN_ALERT " NORMAL MODE \n");
+        if(count <3 ){
+            gpio_set_value(44, 1);
+            gpio_set_value(68, 0);
+            gpio_set_value(67, 0);            
+        }
+        else if (count <4){
+            gpio_set_value(68, 1);   
+            gpio_set_value(44, 0);
+            gpio_set_value(67, 0);
+        }
+        else if (count <6){
+            gpio_set_value(67, 1);  
+            gpio_set_value(44, 0);
+            gpio_set_value(68, 0);
+ 
+        }
+    }
+    else if(mode ==1){
+        // printk(KERN_ALERT " RED FLASH MODE \n");
+        if(count%2==0){
+            gpio_set_value(67, 1);  
+            gpio_set_value(44, 0);
+            gpio_set_value(68, 0);
+        }
+        else{
+            gpio_set_value(67, 0);  
+            gpio_set_value(44, 0);
+            gpio_set_value(68, 0);
+        }
+    }
+    else{
+        // printk(KERN_ALERT " YELLOW FLASH MODE \n");
+        if(count%2==0){
+            gpio_set_value(67, 0);  
+            gpio_set_value(44, 0);
+            gpio_set_value(68, 1);
+        }
+        else{
+            gpio_set_value(67, 0);  
+            gpio_set_value(44, 0);
+            gpio_set_value(68, 0);
+        }
+    }
 
     mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+    count++;
+    count = count%6;
 
 }
 
@@ -118,9 +157,18 @@ static void mode_timer_callback(struct timer_list * data)
 
     int value1 = gpio_get_value(26);
     
-    printk(KERN_ALERT " look for button and change mode.: %d \n",value1);
+    // printk(KERN_ALERT " look for button and change mode.: %d \n",value1);
 
-    mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/10));
+    if(value1 == 1){
+        mode++;
+        mode = mode%3;
+        if(mode==0){
+            count=0;
+        }
+    }
+
+    mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/2));
+    
     
 }
 
@@ -158,7 +206,7 @@ static int my_timer_update(int time_in_ms, const char *msg)
 
 static int mytraffic_init(void)
 {
-
+    count =0;
     int result = register_chrdev(mytraffic_major, "mytraffic", &mytraffic_ops);
     if (result < 0)
     {
@@ -203,6 +251,8 @@ fail:
 
 static void mytraffic_exit(void)
 {
+    del_timer(mode_timer);
+    del_timer(etx_timer);
     unregister_chrdev(mytraffic_major, "mytraffic");
     if (mytraffic_buff)
     {
@@ -210,8 +260,11 @@ static void mytraffic_exit(void)
     }
     gpio_free_array(leds_gpios, ARRAY_SIZE(leds_gpios));
     gpio_free_array(buttons_gpios, ARRAY_SIZE(buttons_gpios));
+    kfree(mode_timer);
+    kfree(etx_timer);
 
-}
+}   
+
 
 /*
     When button 0 is pressed, switch modes
