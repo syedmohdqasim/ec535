@@ -60,6 +60,7 @@ static int mytraffic_major = 61; // major number
 static int count;  // counter for light duration
 static int mode; // traffic light mode
 static int time_in_ms=1000;
+static unsigned bite=256;
 
 static unsigned capacity = 256;  
 static char *mytraffic_buff; //buffer to store data
@@ -73,16 +74,16 @@ static void my_timer_callback(struct timer_list * data)
     
     printk(KERN_ALERT " NORMAL MODE \n");
 
-    mod_timer(&etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+    mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
 }
 
 static int my_timer_set(int time_in_ms, const char *msg)
 {
-    if(timer_pending(&etx_timer)==0)
-    { timer_setup(&etx_timer, my_timer_callback, 0); 
+    if(timer_pending(etx_timer)==0)
+    { timer_setup(etx_timer, my_timer_callback, 0); 
     
     }
-    mod_timer(&etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+    mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
     
 
     return 0;
@@ -90,7 +91,7 @@ static int my_timer_set(int time_in_ms, const char *msg)
 
 static int my_timer_update(int time_in_ms, const char *msg)
 {
-    mod_timer(&etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+    mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
   
     return 0;
 }
@@ -99,7 +100,7 @@ static int my_timer_update(int time_in_ms, const char *msg)
 static int mytraffic_init(void)
 {
 
-    result = register_chrdev(mytraffic_major, "mytraffic", &mytraffic_ops);
+    int result = register_chrdev(mytraffic_major, "mytraffic", &mytraffic_ops);
     if (result < 0)
     {
         goto fail;
@@ -116,8 +117,8 @@ static int mytraffic_init(void)
     mytraffic_len = 0;
 
     etx_timer = kmalloc(sizeof(struct timer_list), GFP_KERNEL);
-    timer_setup(&etx_timer, my_timer_callback, 0);
-    mod_timer(timer_node_list[i].etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+    timer_setup(etx_timer, my_timer_callback, 0);
+    mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
 
     return 0;
 
@@ -154,6 +155,7 @@ static int mytraffic_fasync(int fd, struct file *filp, int mode) {
 
 static ssize_t mytraffic_read(struct file *filp, char *buf, size_t count, loff_t *f_pos)
 {   
+
     if (*f_pos >= mytraffic_len)
     {
     return 0;
