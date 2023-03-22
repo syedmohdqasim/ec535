@@ -63,9 +63,14 @@ static struct fasync_struct *async_queue;
 */
 
 static struct gpio leds_gpios[] = {
-        { 67, GPIOF_OUT_INIT_LOW, "Green LED" }, /* default to ON */
-        { 68, GPIOF_OUT_INIT_LOW,  "Yellow LED" }, /* default to OFF */
-        { 44, GPIOF_OUT_INIT_LOW,  "Red LED"   }, /* default to OFF */
+        { 67, GPIOF_OUT_INIT_LOW, "Green LED" }, /*default to OFF*/
+        { 68, GPIOF_OUT_INIT_LOW,  "Yellow LED" }, /*default to OFF*/
+        { 44, GPIOF_OUT_INIT_LOW,  "Red LED"   } /*default to OFF*/
+};
+
+static struct gpio buttons_gpios[] = {
+        { 26, GPIOF_IN, "Button 0" }, /*default to OFF*/
+        { 46, GPIOF_IN,  "Button 1" }, /* default to OFF */
 };
 
 /* global variables */
@@ -87,6 +92,7 @@ static void my_timer_callback(struct timer_list * data)
 
     
     printk(KERN_ALERT " NORMAL MODE \n");
+    gpio_set_value(44, 1);
 
     mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
 }
@@ -124,6 +130,12 @@ static int mytraffic_init(void)
     if (err){
         goto fail;
     }
+    
+    err2 = gpio_request_array(buttons_gpios, ARRAY_SIZE(buttons_gpios));
+    if (err2){
+        goto fail;
+    }
+
 
     mytraffic_buff = kmalloc(capacity*3, GFP_KERNEL); 
     if (!mytraffic_buff)
@@ -154,6 +166,7 @@ static void mytraffic_exit(void)
     kfree(mytraffic_buff);
     }
     gpio_free_array(leds_gpios, ARRAY_SIZE(leds_gpios));
+    gpio_free_array(buttons_gpios, ARRAY_SIZE(buttons_gpios));
 
 }
 
