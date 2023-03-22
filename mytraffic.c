@@ -54,6 +54,20 @@ static struct file_operations mytraffic_ops = {
 
 static struct fasync_struct *async_queue;
 
+/* GPIO pins
+- red light: gpio67
+- yellow light: gpio68
+- green light: gpio44
+- button0: gpio26
+- button1: gpio46
+*/
+
+static struct gpio leds_gpios[] = {
+        { 67, GPIOF_OUT_INIT_LOW, "Green LED" }, /* default to ON */
+        { 68, GPIOF_OUT_INIT_LOW,  "Yellow LED" }, /* default to OFF */
+        { 44, GPIOF_OUT_INIT_LOW,  "Red LED"   }, /* default to OFF */
+};
+
 /* global variables */
 static int mytraffic_major = 61; // major number
 
@@ -105,6 +119,11 @@ static int mytraffic_init(void)
     {
         goto fail;
     }
+    
+    err = gpio_request_array(leds_gpios, ARRAY_SIZE(leds_gpios));
+    if (err){
+        goto fail;
+    }
 
     mytraffic_buff = kmalloc(capacity*3, GFP_KERNEL); 
     if (!mytraffic_buff)
@@ -134,6 +153,8 @@ static void mytraffic_exit(void)
     {
     kfree(mytraffic_buff);
     }
+    gpio_free_array(leds_gpios, ARRAY_SIZE(leds_gpios));
+
 }
 
 /*
