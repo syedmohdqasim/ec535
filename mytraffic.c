@@ -14,10 +14,12 @@
 #include <linux/jiffies.h>
 #include <linux/delay.h>
 #include <linux/seq_file.h>
+#include <linux/gpio.h>
 #include <linux/gpio/consumer.h> /* gpio access */
 
 MODULE_LICENSE("Dual BSD/GPL");
 
+#define GPIO_BUTTON0 26
 
 /* GPIO pins
 - red light: gpio67
@@ -37,6 +39,7 @@ static ssize_t mytraffic_read(struct file *filp, char *buf, size_t count, loff_t
 static int mytraffic_fasync(int fd, struct file *filp, int mode);
 static int mode;
 static struct timer_list * etx_timer;
+static struct timer_list * mode_timer;
 // static int mytraffic_open(struct inode *inode, struct file *filp);
 // static int mytraffic_release(struct inode *inode, struct file *filp);
 
@@ -90,11 +93,35 @@ static void my_timer_callback(struct timer_list * data)
     // if (async_queue)
     //     kill_fasync(&async_queue, SIGIO, POLL_IN);
 
+
     
     printk(KERN_ALERT " NORMAL MODE \n");
+    
+
+    if(mode ==0 )
+        printk(KERN_ALERT " NORMAL MODE \n");
+    else if(mode ==1)
+        printk(KERN_ALERT " RED FLASH MODE \n");
+    else
+        printk(KERN_ALERT " YELLOW FLASH MODE \n");
+
     gpio_set_value(44, 1);
 
     mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+
+}
+
+static void mode_timer_callback(struct timer_list * data)
+{
+    // if (async_queue)
+    //     kill_fasync(&async_queue, SIGIO, POLL_IN);
+
+    int value1 = gpio_get_value(26);
+    
+    printk(KERN_ALERT " look for button and change mode.: %d \n",value1);
+
+    mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/10));
+    
 }
 
 static int my_timer_set(int time_in_ms, const char *msg)
@@ -104,6 +131,18 @@ static int my_timer_set(int time_in_ms, const char *msg)
     
     }
     mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+    
+
+    return 0;
+}
+
+static int mode_timer_set(int time_in_ms, const char *msg)
+{
+    if(timer_pending(etx_timer)==0)
+    { timer_setup(etx_timer, my_timer_callback, 0); 
+    
+    }
+    mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/10));
     
 
     return 0;
@@ -126,12 +165,12 @@ static int mytraffic_init(void)
         goto fail;
     }
     
-    err = gpio_request_array(leds_gpios, ARRAY_SIZE(leds_gpios));
+    int err = gpio_request_array(leds_gpios, ARRAY_SIZE(leds_gpios));
     if (err){
         goto fail;
     }
     
-    err2 = gpio_request_array(buttons_gpios, ARRAY_SIZE(buttons_gpios));
+    int err2 = gpio_request_array(buttons_gpios, ARRAY_SIZE(buttons_gpios));
     if (err2){
         goto fail;
     }
@@ -150,6 +189,9 @@ static int mytraffic_init(void)
     etx_timer = kmalloc(sizeof(struct timer_list), GFP_KERNEL);
     timer_setup(etx_timer, my_timer_callback, 0);
     mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+
+    timer_setup(mode_timer, mode_timer_callback, 0);
+    mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/10));
 
     return 0;
 
