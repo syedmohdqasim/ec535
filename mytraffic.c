@@ -190,6 +190,7 @@ static int mytraffic_init(void)
     timer_setup(etx_timer, my_timer_callback, 0);
     mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
 
+    mode_timer = kmalloc(sizeof(struct timer_list), GFP_KERNEL);
     timer_setup(mode_timer, mode_timer_callback, 0);
     mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/10));
 
