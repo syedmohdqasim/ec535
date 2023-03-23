@@ -358,7 +358,12 @@ static ssize_t mylist(void){
     }
     tbptrL += sprintf(tbptrL, "Cycle rate: %dHZ\n", 1); //TODO set 1 to a variable
     tbptrL += sprintf(tbptrL, "R:%d Y:%d G:%d\n",gpio_get_value(67), gpio_get_value(68), gpio_get_value(44));
-    //tbptrL += sprintf(tbptrL, "Pedestrian: Present\n"); 
+    if(ped == 1){
+        tbptrL += sprintf(tbptrL, "Pedestrian: Present\n"); 
+    }
+    else{
+        tbptrL += sprintf(tbptrL, "Pedestrian: Not present\n");
+    }
     return (sprintf(mytraffic_buff, "%s", tbufL));
 }
 
