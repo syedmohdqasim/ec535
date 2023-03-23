@@ -105,6 +105,7 @@ static void my_timer_callback(struct timer_list * data)
         // printk(KERN_ALERT " NORMAL MODE \n");
         if(ped == 1)
         {
+            // printk(KERN_ALERT " k:%d  \n",ped_count);
             if(ped_count <3 ){
                 gpio_set_value(44, 1);
                 gpio_set_value(68, 0);
@@ -117,7 +118,7 @@ static void my_timer_callback(struct timer_list * data)
                 gpio_set_value(67, 0);
             }
             else if (ped_count <9){
-                printk(KERN_ALERT " k MODE \n");
+                // printk(KERN_ALERT " k MODE \n");
                 gpio_set_value(67, 1);  
                 gpio_set_value(44, 0);
                 gpio_set_value(68, 1);
@@ -125,6 +126,12 @@ static void my_timer_callback(struct timer_list * data)
             }
             
             ped_count ++;
+            if(ped_count == 9 && ped == 1)
+            {
+                ped=0;
+                count=0;
+            }
+
             ped_count = ped_count%9;
         }
     
@@ -178,11 +185,7 @@ static void my_timer_callback(struct timer_list * data)
     mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
     count++;
     count = count%6;
-    if(ped_count == 8 && ped == 1)
-            {
-                ped=0;
-                count=0;
-            }
+    
 
 }
 
@@ -207,12 +210,13 @@ static void mode_timer_callback(struct timer_list * data)
 
     int value2 = gpio_get_value(46);
 
-    if(value2==1){
+    if(value2==1 && ped == 0){
         
         if(count >4){
-            ped_count=5;
+            ped_count=4;
         }
         else{
+            // printk(KERN_ALERT " set ped_count K: %d \n",count);
             ped_count = count;
 
         }
