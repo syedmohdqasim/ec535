@@ -283,9 +283,31 @@ static int mytraffic_fasync(int fd, struct file *filp, int mode) {
         whether or not a pedestrian is present (additional feature)
 */
 
+static ssize_t mylist(void){
+    char tbufL[capacity*3], *tbptrL = tbufL;
+    int i = 0;
+    tbufL[0] = '\0'; //clear buffer
+    switch(mode){
+        case 0:
+            tbptrL += sprintf(tbptrL, "Mode: NORMAL\n");
+            break;
+        case 2:
+            tbptrL += sprintf(tbptrL, "Mode: FLASHING YELLOW\n");
+            break;
+        case 1:
+            tbptrL += sprintf(tbptrL, "Mode: FLASHING RED\n");
+            break;
+    }
+    tbptrL += sprintf(tbptrL, "Cycle rate: %dHZ\n", 1); //TODO set 1 to a variable
+    tbptrL += sprintf(tbptrL, "R:%d Y:%d G:%d\n",gpio_get_value(67), gpio_get_value(68), gpio_get_value(44));
+    //tbptrL += sprintf(tbptrL, "Pedestrian: Present\n"); 
+    return (sprintf(mytraffic_buff, "%s", tbufL));
+}
+
+
 static ssize_t mytraffic_read(struct file *filp, char *buf, size_t count, loff_t *f_pos)
 {   
-
+    mytraffic_len = mylist();
     if (*f_pos >= mytraffic_len)
     {
     return 0;
@@ -307,7 +329,6 @@ static ssize_t mytraffic_read(struct file *filp, char *buf, size_t count, loff_t
     *f_pos += count;
     return count; 
 }
-
 /* Additional feature: Writable character device, writing an integer to character
 device alters the cycle rate of the traffic light, anythng else should be ignored */
 
