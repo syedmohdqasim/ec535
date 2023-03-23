@@ -196,6 +196,8 @@ static void mode_timer_callback(struct timer_list * data)
 
     int value1 = gpio_get_value(26);
     
+    int value2 = gpio_get_value(46);
+
     
     // printk(KERN_ALERT " look for button and change mode.: %d \n",value1);
 
@@ -208,7 +210,7 @@ static void mode_timer_callback(struct timer_list * data)
     }
 
 
-    int value2 = gpio_get_value(46);
+    
 
     if(value2==1 && ped == 0){
         
@@ -223,7 +225,19 @@ static void mode_timer_callback(struct timer_list * data)
         ped =1;
     }
 
+    if (value2==1 && value1==1){
+        while(gpio_get_value(26) == 1 && gpio_get_value(46)==1){
+            gpio_set_value(67, 1);  
+            gpio_set_value(44, 1);
+            gpio_set_value(68, 1);
 
+        }
+
+        ped = 0;
+        ped_count=0;
+        count=0;
+        mode=0;
+    }
 
     mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/2));
     
