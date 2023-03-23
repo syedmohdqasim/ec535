@@ -83,6 +83,9 @@ static int count;  // counter for light duration
 static int mode; // traffic light mode
 static int time_in_ms=1000;
 static unsigned bite=256;
+static int ped=0;
+static int ped_count=0;
+
 
 static unsigned capacity = 256;  
 static char *mytraffic_buff; //buffer to store data
@@ -100,21 +103,49 @@ static void my_timer_callback(struct timer_list * data)
 
     if(mode ==0){
         // printk(KERN_ALERT " NORMAL MODE \n");
-        if(count <3 ){
-            gpio_set_value(44, 1);
-            gpio_set_value(68, 0);
-            gpio_set_value(67, 0);            
+        if(ped == 1)
+        {
+            if(ped_count <3 ){
+                gpio_set_value(44, 1);
+                gpio_set_value(68, 0);
+                gpio_set_value(67, 0);            
+            }
+            
+            else if (ped_count <4){
+                gpio_set_value(68, 1);   
+                gpio_set_value(44, 0);
+                gpio_set_value(67, 0);
+            }
+            else if (ped_count <9){
+                printk(KERN_ALERT " k MODE \n");
+                gpio_set_value(67, 1);  
+                gpio_set_value(44, 0);
+                gpio_set_value(68, 1);
+     
+            }
+            
+            ped_count ++;
+            ped_count = ped_count%9;
         }
-        else if (count <4){
-            gpio_set_value(68, 1);   
-            gpio_set_value(44, 0);
-            gpio_set_value(67, 0);
-        }
-        else if (count <6){
-            gpio_set_value(67, 1);  
-            gpio_set_value(44, 0);
-            gpio_set_value(68, 0);
- 
+    
+        if(ped == 0)
+        {
+            if(count <3 ){
+                gpio_set_value(44, 1);
+                gpio_set_value(68, 0);
+                gpio_set_value(67, 0);            
+            }
+            else if (count <4){
+                gpio_set_value(68, 1);   
+                gpio_set_value(44, 0);
+                gpio_set_value(67, 0);
+            }
+            else if (count <6){
+                gpio_set_value(67, 1);  
+                gpio_set_value(44, 0);
+                gpio_set_value(68, 0);
+     
+            }
         }
     }
     else if(mode ==1){
@@ -147,6 +178,11 @@ static void my_timer_callback(struct timer_list * data)
     mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
     count++;
     count = count%6;
+    if(ped_count == 8 && ped == 1)
+            {
+                ped=0;
+                count=0;
+            }
 
 }
 
@@ -157,6 +193,7 @@ static void mode_timer_callback(struct timer_list * data)
 
     int value1 = gpio_get_value(26);
     
+    
     // printk(KERN_ALERT " look for button and change mode.: %d \n",value1);
 
     if(value1 == 1){
@@ -166,6 +203,23 @@ static void mode_timer_callback(struct timer_list * data)
             count=0;
         }
     }
+
+
+    int value2 = gpio_get_value(46);
+
+    if(value2==1){
+        
+        if(count >4){
+            ped_count=5;
+        }
+        else{
+            ped_count = count;
+
+        }
+        ped =1;
+    }
+
+
 
     mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/2));
     
