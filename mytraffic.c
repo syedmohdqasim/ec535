@@ -411,5 +411,65 @@ device alters the cycle rate of the traffic light, anythng else should be ignore
 
 static ssize_t mytraffic_write(struct file *filp, const char *buf, size_t count, loff_t *f_pos)
 {
+
+    int additionalLen = 0;
+    // printk(KERN_INFO "Buffer length %d fpos %lld\n", mytimer_len, *f_pos);
+
+	/* end of buffer reached */
+	if (*f_pos >= capacity)
+	{
+		printk(KERN_INFO
+			"write called: process id %d, command %s, count %d, buffer full\n",
+			current->pid, current->comm, count);
+		return -ENOSPC;
+	}
+
+	/* do not eat more than a bite */
+	if (count > bite) count = bite;
+
+	/* do not go over the end */
+	if (count > capacity - *f_pos)
+		count = capacity - *f_pos;
+
+	if (copy_from_user(mytimer_buffer + *f_pos, buf, count))
+	{
+		return -EFAULT;
+	}
+
+    // printk(KERN_INFO"Count :%d Buf: %s\n", count, mytimer_buffer);
+    // this ensures that the previous buffer will not have an impact on the current buffer
+    mytimer_buffer[count] = '\0';
+
+
+    if(mytimer_buffer[0] == 'l'){
+        // write a function that prints everything
+        additionalLen = list();
+    }
+    else if (mytimer_buffer[0] == 'S'){
+        // gets message and time
+        char messageTemp[MAX_CHAR+1];
+        char timeTemp[MAX_DIGITS+1];
+
+        int len = getMessage(messageTemp, timeTemp, mytimer_buffer);
+        int time = getTime(timeTemp, len);
+        // printk(KERN_INFO"Msg Temp: %s\n", messageTemp);
+        //updates timer
+        additionalLen = updateTimer(messageTemp, time);        
+    }
+    else if (mytimer_buffer[0] == 'M'){
+        // int i;
+        int new_number_of_timers = (int)(mytimer_buffer[2]) - 48; 
+
+        if(new_number_of_timers >= activeTimers){
+            number_of_timers = new_number_of_timers;
+        }
+            
+    }
+
+
+	*f_pos = 0;
+	mytimer_len = *f_pos + additionalLen;
+
+    // printk(KERN_INFO "Buffer length %d fpos %lld\n", mytimer_len, *f_pos);
     return count;
 }
