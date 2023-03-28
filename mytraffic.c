@@ -85,6 +85,7 @@ static int time_in_ms=1000;
 static unsigned bite=256;
 static int ped=0;
 static int ped_count=0;
+static int cycle_div=1;
 
 
 static unsigned capacity = 256;  
@@ -182,7 +183,7 @@ static void my_timer_callback(struct timer_list * data)
         }
     }
 
-    mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms));
+    mod_timer(etx_timer, jiffies + msecs_to_jiffies(time_in_ms/cycle_div));
     count++;
     count = count%6;
     
@@ -202,6 +203,7 @@ static void mode_timer_callback(struct timer_list * data)
     // printk(KERN_ALERT " look for button and change mode.: %d \n",value1);
 
     if(value1 == 1){
+        while(gpio_get_value(26) == 1 && gpio_get_value(46)==0){}
         mode++;
         mode = mode%3;
         if(mode==0){
@@ -213,7 +215,7 @@ static void mode_timer_callback(struct timer_list * data)
     
 
     if(value2==1 && ped == 0){
-        
+        while(gpio_get_value(26) == 0 && gpio_get_value(46)==1){}
         if(count >4){
             ped_count=4;
         }
@@ -237,9 +239,10 @@ static void mode_timer_callback(struct timer_list * data)
         ped_count=0;
         count=0;
         mode=0;
+        cycle_div=1;
     }
 
-    mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/2));
+    mod_timer(mode_timer, jiffies + msecs_to_jiffies(time_in_ms/8));
     
     
 }
@@ -370,7 +373,7 @@ static ssize_t mylist(void){
             tbptrL += sprintf(tbptrL, "Mode: FLASHING RED\n");
             break;
     }
-    tbptrL += sprintf(tbptrL, "Cycle rate: %dHZ\n", 1); //TODO set 1 to a variable
+    tbptrL += sprintf(tbptrL, "Cycle rate: %dHZ\n", cycle_div); //TODO set 1 to a variable
     tbptrL += sprintf(tbptrL, "R:%d Y:%d G:%d\n",gpio_get_value(67), gpio_get_value(68), gpio_get_value(44));
     if(ped == 1){
         tbptrL += sprintf(tbptrL, "Pedestrian: Present\n"); 
@@ -411,7 +414,7 @@ device alters the cycle rate of the traffic light, anythng else should be ignore
 
 static ssize_t mytraffic_write(struct file *filp, const char *buf, size_t count, loff_t *f_pos)
 {
-
+    char mytimer_buffer[32];
     int additionalLen = 0;
     // printk(KERN_INFO "Buffer length %d fpos %lld\n", mytimer_len, *f_pos);
 
@@ -440,35 +443,14 @@ static ssize_t mytraffic_write(struct file *filp, const char *buf, size_t count,
     // this ensures that the previous buffer will not have an impact on the current buffer
     mytimer_buffer[count] = '\0';
 
+    
+    int num =  simple_strtol(mytimer_buffer, NULL, 10);
 
-    if(mytimer_buffer[0] == 'l'){
-        // write a function that prints everything
-        additionalLen = list();
+
+    if(num >0 && num <10){
+        cycle_div = num;
+
     }
-    else if (mytimer_buffer[0] == 'S'){
-        // gets message and time
-        char messageTemp[MAX_CHAR+1];
-        char timeTemp[MAX_DIGITS+1];
-
-        int len = getMessage(messageTemp, timeTemp, mytimer_buffer);
-        int time = getTime(timeTemp, len);
-        // printk(KERN_INFO"Msg Temp: %s\n", messageTemp);
-        //updates timer
-        additionalLen = updateTimer(messageTemp, time);        
-    }
-    else if (mytimer_buffer[0] == 'M'){
-        // int i;
-        int new_number_of_timers = (int)(mytimer_buffer[2]) - 48; 
-
-        if(new_number_of_timers >= activeTimers){
-            number_of_timers = new_number_of_timers;
-        }
-            
-    }
-
-
-	*f_pos = 0;
-	mytimer_len = *f_pos + additionalLen;
 
     // printk(KERN_INFO "Buffer length %d fpos %lld\n", mytimer_len, *f_pos);
     return count;
