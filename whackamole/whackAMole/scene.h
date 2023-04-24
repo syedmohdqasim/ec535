@@ -16,6 +16,7 @@ class Scene : public QGraphicsScene
 public:
     explicit Scene(QGraphicsScene *parent = nullptr);
     void startGame();
+    void restartGame();
 protected:
     void touchEvent(QTouchEvent *event);
 signals:
@@ -25,6 +26,8 @@ private:
     int moleTimeDuration;
     QTimer * moleTimer;
     QList<QPointF> holePoints;
+    QMetaObject::Connection connection;
+
 
     void moleHoles();
 };

@@ -18,10 +18,15 @@ void Scene::startGame(){
      }
 }
 
+void Scene::restartGame(){
+    disconnect(Scene::connection);
+    Game::resetScore();
+}
+
 void Scene::setUpMoleTimer()
 {
     moleTimer = new QTimer(this);
-    connect(moleTimer, &QTimer::timeout,[=](){
+    Scene::connection = connect(moleTimer, &QTimer::timeout,[=](){
 
         int randomIndex =  QRandomGenerator::global()->bounded(holePoints.size());
         Mole * mole1 = new Mole(holePoints[randomIndex]);
