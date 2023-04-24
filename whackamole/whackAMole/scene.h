@@ -10,7 +10,6 @@
 #include <QRandomGenerator>
 #include <QGraphicsTextItem>
 
-
 class Scene : public QGraphicsScene
 {
     Q_OBJECT
@@ -19,20 +18,23 @@ public:
     void startGame();
     void restartGame();
     static QList<QPointF> holePoints;
+    static Scene * selfptr;
 //    static QMetaObject::Connection connection;
 protected:
     void touchEvent(QTouchEvent *event);
 signals:
 
 private:
+    bool gameOn;
     void setUpMoleTimer();
     int moleTimeDuration;
     QTimer * moleTimer;
+    QTimer * gametimer;
     QGraphicsTextItem * scoreTextItem;
     QGraphicsPixmapItem * gameOverPix;
 
     QMetaObject::Connection connection;
-
+    int finalScore;
 
     void moleHoles();
     void hideGameOver();

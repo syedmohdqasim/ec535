@@ -16,7 +16,7 @@ Widget::Widget(QWidget *parent)
     this->setAttribute(Qt::WA_AcceptTouchEvents, true);
     Scene *scene = new Scene();
     scene -> setSceneRect(0,0,480,272);
-
+    Scene::selfptr = scene;
     QGraphicsPixmapItem *pixItem = new QGraphicsPixmapItem(QPixmap(":/images/bg.png"));
     scene->addItem(pixItem); // adds mole_bg
     //qDebug() << pixItem->zValue;
@@ -25,8 +25,12 @@ Widget::Widget(QWidget *parent)
 
 
     ui-> graphicsView ->setScene(scene); // game screen
+
 //    ui->graphicsView->setAcceptTouchEvents(true);
     ui->graphicsView->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+
+    connect(ui->startButton, &QPushButton::clicked, this, &Widget::on_startButton_clicked);
+
 
 }
 

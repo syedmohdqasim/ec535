@@ -5,33 +5,45 @@
 Scene::Scene(QGraphicsScene *parent)
     : QGraphicsScene{parent}
 {
+    gameOn = false;
     moleTimeDuration = 1000;
+    Scene::selfptr= this;
     moleHoles();
-    setUpMoleTimer();
-//    this->setAcceptTouchEvents(True);
-    QTimer *gametimer = new QTimer(this);
-
-    gametimer->setInterval(1000); //30000
-    connect(gametimer, &QTimer::timeout, [=]() {
-        restartGame();
-    });
-    gametimer->start();
-
+    startGame();
 }
 
 QList<QPointF> Scene::holePoints;
+Scene * Scene::selfptr;
 
 void Scene::startGame(){
-    hideGameOver();
-     if(!moleTimer->isActive()){
-        moleTimer->start(moleTimeDuration);
-     }
+    Scene::selfptr->hideGameOver();
+    //qDebug() << "start game"<<Scene::selfptr;
+    // qDebug() << Scene::selfptr;
+    Scene::selfptr->setUpMoleTimer();
+    //qDebug() << "new game timer";
+     QTimer::singleShot(3000, [=](){ // change this time for slower
+         //qDebug() << "game timer expired";
+         Scene::selfptr->restartGame();
+     });
+     //qDebug() << "new game timer";
 }
 
 void Scene::restartGame(){
+    //qDebug() << "restart game";
+    finalScore = Game::score;
+
     disconnect(connection);
+    //qDebug() << "disconnected connection";
+
+    moleTimer->stop();
+    //qDebug() << "stopped timer";
+
+    moleTimer->deleteLater();
+    //qDebug() << "deleted timer";
+
     Game::resetScore();
     showGameOver();
+
 }
 
 
@@ -44,7 +56,7 @@ void Scene::showGameOver()
    scoreTextItem = new QGraphicsTextItem(); //include class
     // make sure that these are existing
 
-   QString scoreString = "<p> Score : " + QString::number(Game::score) + "</p>" + "<p> Best Score : " + QString::number(Game::bestScore) + "</p>";
+   QString scoreString = "<p> Score : " + QString::number(finalScore) + "</p>" + "<p> Best Score : " + QString::number(Game::bestScore) + "</p>";
    //make look nice
    scoreTextItem -> setHtml(scoreString);
    addItem(scoreTextItem);
@@ -67,7 +79,13 @@ void Scene::hideGameOver()
 
 void Scene::setUpMoleTimer()
 {
-    moleTimer = new QTimer(this);
+    qDebug() << "inside mole timer"<<moleTimer->isActive();
+    //qDebug() << Scene::selfptr << "hi";
+
+    moleTimer = new QTimer(Scene::selfptr);
+
+
+    qDebug() << "new mole timer";
     connection = connect(moleTimer, &QTimer::timeout,[=](){
 
         int randomIndex =  QRandomGenerator::global()->bounded(Scene::holePoints.size());
@@ -75,8 +93,10 @@ void Scene::setUpMoleTimer()
         Scene::holePoints.removeAt(randomIndex);
         addItem(mole1);
     });
-
+    qDebug() << "connected timer";
     moleTimer->start(moleTimeDuration); //can change
+
+    qDebug() << "mole timer started";
 }
 
 void Scene::touchEvent(QTouchEvent *event)
