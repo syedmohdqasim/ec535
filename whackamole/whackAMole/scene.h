@@ -18,6 +18,7 @@ public:
     void startGame();
     void restartGame();
     static QList<QPointF> holePoints;
+//    static QMetaObject::Connection connection;
 protected:
     void touchEvent(QTouchEvent *event);
 signals:

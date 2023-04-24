@@ -22,7 +22,7 @@ public:
     QPointF getLocation();
     void setHit(bool hitted);
     void setLocation(QPointF point);
-    void hit();
+    void hit(Mole *obj);
 signals:
 
 protected:

@@ -9,6 +9,14 @@ Scene::Scene(QGraphicsScene *parent)
     moleHoles();
     setUpMoleTimer();
 //    this->setAcceptTouchEvents(True);
+    QTimer *gametimer = new QTimer(this);
+
+    gametimer->setInterval(30000);
+    connect(gametimer, &QTimer::timeout, [=]() {
+        restartGame();
+    });
+    gametimer->start();
+
 }
 
 QList<QPointF> Scene::holePoints;
@@ -21,14 +29,15 @@ void Scene::startGame(){
 }
 
 void Scene::restartGame(){
-    disconnect(Scene::connection);
+    disconnect(connection);
     Game::resetScore();
+
 }
 
 void Scene::setUpMoleTimer()
 {
     moleTimer = new QTimer(this);
-    Scene::connection = connect(moleTimer, &QTimer::timeout,[=](){
+    connection = connect(moleTimer, &QTimer::timeout,[=](){
 
         int randomIndex =  QRandomGenerator::global()->bounded(Scene::holePoints.size());
         Mole * mole1 = new Mole(Scene::holePoints[randomIndex]);

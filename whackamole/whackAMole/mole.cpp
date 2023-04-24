@@ -27,10 +27,8 @@ bool Mole::sceneEvent(QEvent* event)  {
                 qDebug() << "Hit mole.";
                 setPixmap(QPixmap(":/images/mole_hit.png"));
                 //hit = 1;
-                hit();
+                hit(this);
 
-
-                setVisible(false);
             }
         }
     }
@@ -85,9 +83,12 @@ void Mole::touchEvent(QTouchEvent* event) {
     }
 }
 
-void Mole::hit(){
+void Mole::hit(Mole *obj){
+    if(obj->isVisible()){
     Game::score++;
     qDebug() << "score is:"<< Game::score;
+    setVisible(false);
+    }
 };
 
 bool Mole::didItHit(){
