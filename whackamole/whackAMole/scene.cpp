@@ -11,6 +11,8 @@ Scene::Scene(QGraphicsScene *parent)
 //    this->setAcceptTouchEvents(True);
 }
 
+QList<QPointF> Scene::holePoints;
+
 void Scene::startGame(){
 
      if(!moleTimer->isActive()){
@@ -28,8 +30,9 @@ void Scene::setUpMoleTimer()
     moleTimer = new QTimer(this);
     Scene::connection = connect(moleTimer, &QTimer::timeout,[=](){
 
-        int randomIndex =  QRandomGenerator::global()->bounded(holePoints.size());
-        Mole * mole1 = new Mole(holePoints[randomIndex]);
+        int randomIndex =  QRandomGenerator::global()->bounded(Scene::holePoints.size());
+        Mole * mole1 = new Mole(Scene::holePoints[randomIndex]);
+        Scene::holePoints.removeAt(randomIndex);
         addItem(mole1);
     });
 
@@ -43,15 +46,15 @@ void Scene::touchEvent(QTouchEvent *event)
 
 void Scene::moleHoles(){
     //QList<QPointF> holePoints;
-    holePoints.append(QPointF(50, 60));
-    holePoints.append(QPointF(150, 60));
-    holePoints.append(QPointF(250, 60));
-    holePoints.append(QPointF(345, 60));
+    Scene::holePoints.append(QPointF(50, 60));
+    Scene::holePoints.append(QPointF(150, 60));
+    Scene::holePoints.append(QPointF(250, 60));
+    Scene::holePoints.append(QPointF(345, 60));
 
-    holePoints.append(QPointF(50, 150));
-    holePoints.append(QPointF(150, 150));
-    holePoints.append(QPointF(250, 150));
-    holePoints.append(QPointF(345, 150));
+    Scene::holePoints.append(QPointF(50, 150));
+    Scene::holePoints.append(QPointF(150, 150));
+    Scene::holePoints.append(QPointF(250, 150));
+    Scene::holePoints.append(QPointF(345, 150));
 
     //qDebug() << holePoints.size();
 

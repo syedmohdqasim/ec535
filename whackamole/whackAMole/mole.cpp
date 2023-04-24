@@ -1,6 +1,7 @@
 #include "mole.h"
 
 #include <QDebug>
+#include "scene.h"
 
 // may need to make a button
 Mole::Mole(QPointF place)
@@ -46,6 +47,7 @@ void Mole::visible(Mole *obj) {
     obj->setAcceptTouchEvents(true);
     QTimer::singleShot(2000, [=](){ // change this time for slower
         obj->setVisible(false);
+        Scene::holePoints.append(location);
         qDebug() << obj->location;
         delete obj;
     });

@@ -9,5 +9,6 @@
 class Game{
 public:
     static int score;
+
     static void resetScore();
 };

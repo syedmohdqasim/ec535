@@ -17,6 +17,7 @@ public:
     explicit Scene(QGraphicsScene *parent = nullptr);
     void startGame();
     void restartGame();
+    static QList<QPointF> holePoints;
 protected:
     void touchEvent(QTouchEvent *event);
 signals:
@@ -25,7 +26,7 @@ private:
     void setUpMoleTimer();
     int moleTimeDuration;
     QTimer * moleTimer;
-    QList<QPointF> holePoints;
+
     QMetaObject::Connection connection;
 
 
