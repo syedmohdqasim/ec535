@@ -24,7 +24,7 @@ void Scene::setUpMoleTimer()
     connect(moleTimer, &QTimer::timeout,[=](){
 
         int randomIndex =  QRandomGenerator::global()->bounded(holePoints.size());
-        mole * mole1 = new mole(holePoints[randomIndex]);
+        Mole * mole1 = new Mole(holePoints[randomIndex]);
         addItem(mole1);
     });
 

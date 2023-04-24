@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
+    game.cpp \
     mole.cpp \
     TouchableGraphicsItem.cpp \
     scene.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 HEADERS += \
     mole.h \
     scene.h \
+    Game.h \
     TouchableGraphicsItem.h \
     widget.h
 

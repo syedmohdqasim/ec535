@@ -3,9 +3,9 @@
 #include <QDebug>
 
 // may need to make a button
-mole::mole(QPointF place)
+Mole::Mole(QPointF place)
 {
-    hit = 0;
+    //hit = 0;
     setVisible(false);
     setAcceptTouchEvents(true);
     location = place;
@@ -15,7 +15,7 @@ mole::mole(QPointF place)
     visible(this);
 }
 
-bool mole::sceneEvent(QEvent* event)  {
+bool Mole::sceneEvent(QEvent* event)  {
     qDebug() << "some event mole touch";
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
         QTouchEvent* touchEvent = static_cast<QTouchEvent*>(event);
@@ -25,7 +25,10 @@ bool mole::sceneEvent(QEvent* event)  {
                 qDebug() << "Touch point id:" << touchPoint.id() << "x:" << pos.x() << "y:" << pos.y();
                 qDebug() << "Hit mole.";
                 setPixmap(QPixmap(":/images/mole_hit.png"));
-                hit = 1;
+                //hit = 1;
+                hit();
+
+
                 setVisible(false);
             }
         }
@@ -38,7 +41,7 @@ bool mole::sceneEvent(QEvent* event)  {
 //        }
     return QGraphicsPixmapItem::sceneEvent(event);
 };
-void mole::visible(mole *obj) {
+void Mole::visible(Mole *obj) {
     obj->setVisible(true);
     obj->setAcceptTouchEvents(true);
     QTimer::singleShot(2000, [=](){ // change this time for slower
@@ -68,35 +71,41 @@ void mole::onAnimationFinished2() {
 }
 */
 
-void mole::touchEvent(QTouchEvent* event) {
+void Mole::touchEvent(QTouchEvent* event) {
     if (!isVisible()) { // if the item is disabled, do nothing
         return;
     }
     if (isVisible()) { // if the item is visible, spin it
         qDebug() << "Hit mole.";
         setPixmap(QPixmap(":/images/mole_hit.png"));
-        hit = 1;
+      //  hit = 1;
         setVisible(false);
     }
 }
 
-bool mole::didItHit(){
-    return hit;
+void Mole::hit(){
+    Game::score++;
+    qDebug() << "score is:"<< Game::score;
+};
+
+bool Mole::didItHit(){
+    return 0;
 }
 
-void mole::setHit(bool hitted){
-    this->hit = hitted;
+void Mole::setHit(bool hitted){
+   // this->hit = hitted;
+
 }
 
-QPointF mole::getLocation(){
+QPointF Mole::getLocation(){
     return location;
 }
 
-void mole::setLocation(QPointF point){
+void Mole::setLocation(QPointF point){
     location = point;
     setPos(location);
 }
 
-mole::~mole(){
+Mole::~Mole(){
     qDebug() << "Deleting mole.";
 }

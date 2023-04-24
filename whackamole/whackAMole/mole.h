@@ -9,18 +9,20 @@
 #include <QPropertyAnimation>
 #include <QGraphicsSceneMouseEvent> //not necessary
 #include <QTouchEvent>
+#include "game.h"
 
-class mole : public QObject, public QGraphicsPixmapItem
+class Mole : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    explicit mole(QPointF place);
-    ~mole();
+    explicit Mole(QPointF place);
+    ~Mole();
     void setEnabled(bool enabled);
     bool didItHit();
     QPointF getLocation();
     void setHit(bool hitted);
     void setLocation(QPointF point);
+    void hit();
 signals:
 
 protected:
@@ -28,10 +30,11 @@ protected:
     void touchEvent(QTouchEvent *event) ; //override
 private:
     QPointF location;
-    bool hit; //0 : no, 1: yes
+//    bool hit; //0 : no, 1: yes
     //void onAnimationFinished();
     //void onAnimationFinished2();
-    void visible(mole *obj);
+    void visible(Mole *obj);
 };
+
 
 #endif // MOLE_H
