@@ -9,12 +9,15 @@
 #include <QList>
 #include <QRandomGenerator>
 
+
 class Scene : public QGraphicsScene
 {
     Q_OBJECT
 public:
     explicit Scene(QGraphicsScene *parent = nullptr);
     void startGame();
+protected:
+    void touchEvent(QTouchEvent *event);
 signals:
 
 private:

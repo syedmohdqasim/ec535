@@ -8,6 +8,7 @@ Scene::Scene(QGraphicsScene *parent)
     moleTimeDuration = 1000;
     moleHoles();
     setUpMoleTimer();
+//    this->setAcceptTouchEvents(True);
 }
 
 void Scene::startGame(){
@@ -28,6 +29,11 @@ void Scene::setUpMoleTimer()
     });
 
     moleTimer->start(moleTimeDuration); //can change
+}
+
+void Scene::touchEvent(QTouchEvent *event)
+{
+    qDebug() << "touch pressed";
 }
 
 void Scene::moleHoles(){

@@ -11,12 +11,14 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mole.cpp \
+    TouchableGraphicsItem.cpp \
     scene.cpp \
     widget.cpp
 
 HEADERS += \
     mole.h \
     scene.h \
+    TouchableGraphicsItem.h \
     widget.h
 
 FORMS += \
