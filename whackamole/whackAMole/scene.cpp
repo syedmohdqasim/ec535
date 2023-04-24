@@ -11,7 +11,7 @@ Scene::Scene(QGraphicsScene *parent)
 //    this->setAcceptTouchEvents(True);
     QTimer *gametimer = new QTimer(this);
 
-    gametimer->setInterval(30000);
+    gametimer->setInterval(1000); //30000
     connect(gametimer, &QTimer::timeout, [=]() {
         restartGame();
     });
@@ -22,7 +22,7 @@ Scene::Scene(QGraphicsScene *parent)
 QList<QPointF> Scene::holePoints;
 
 void Scene::startGame(){
-
+    hideGameOver();
      if(!moleTimer->isActive()){
         moleTimer->start(moleTimeDuration);
      }
@@ -31,7 +31,38 @@ void Scene::startGame(){
 void Scene::restartGame(){
     disconnect(connection);
     Game::resetScore();
+    showGameOver();
+}
 
+
+void Scene::showGameOver()
+{
+    qDebug() << "game over";
+    //gameOverPix = new QGraphicsPixmapItem(QPixmap("image");//make image
+   // addItem(gameOverPix);
+   // gameOverPix -> setPos(center)//center
+   scoreTextItem = new QGraphicsTextItem(); //include class
+    // make sure that these are existing
+
+   QString scoreString = "<p> Score : " + QString::number(Game::score) + "</p>" + "<p> Best Score : " + QString::number(Game::bestScore) + "</p>";
+   //make look nice
+   scoreTextItem -> setHtml(scoreString);
+   addItem(scoreTextItem);
+   // set under item
+}
+
+void Scene::hideGameOver()
+{
+    if(gameOverPix){
+        removeItem(gameOverPix);
+        delete gameOverPix;
+        gameOverPix = nullptr;
+    }
+    if(scoreTextItem){
+        removeItem(scoreTextItem);
+        delete scoreTextItem;
+        scoreTextItem = nullptr;
+    }
 }
 
 void Scene::setUpMoleTimer()

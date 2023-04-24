@@ -35,17 +35,17 @@
     </size>
    </property>
   </widget>
-  <widget class="QLabel" name="pointsDisp">
+  <widget class="QPushButton" name="startButton">
    <property name="geometry">
     <rect>
-     <x>4</x>
-     <y>4</y>
-     <width>62</width>
-     <height>16</height>
+     <x>0</x>
+     <y>250</y>
+     <width>481</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="text">
-    <string>Points</string>
+    <string>Start Game</string>
    </property>
   </widget>
  </widget>

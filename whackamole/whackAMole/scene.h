@@ -8,6 +8,7 @@
 #include <QPointF>
 #include <QList>
 #include <QRandomGenerator>
+#include <QGraphicsTextItem>
 
 
 class Scene : public QGraphicsScene
@@ -27,11 +28,15 @@ private:
     void setUpMoleTimer();
     int moleTimeDuration;
     QTimer * moleTimer;
+    QGraphicsTextItem * scoreTextItem;
+    QGraphicsPixmapItem * gameOverPix;
 
     QMetaObject::Connection connection;
 
 
     void moleHoles();
+    void hideGameOver();
+    void showGameOver();
 };
 
 #endif // SCENE_H

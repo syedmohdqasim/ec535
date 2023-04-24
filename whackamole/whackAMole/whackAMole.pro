@@ -17,6 +17,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    game.h \
     mole.h \
     scene.h \
     Game.h \

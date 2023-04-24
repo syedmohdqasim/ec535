@@ -7,6 +7,12 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
 ;
 
+
+    this->setStyleSheet("QScrollBar:vertical {width: 0;}");
+    this->setStyleSheet("QScrollBar:horizontal {height: 0;}");
+    ui->graphicsView->setStyleSheet("QScrollBar:horizontal {height: 0;}");
+    ui->graphicsView->setStyleSheet("QScrollBar:vertical {width: 0;}");
+
     this->setAttribute(Qt::WA_AcceptTouchEvents, true);
     Scene *scene = new Scene();
     scene -> setSceneRect(0,0,480,272);
@@ -15,10 +21,9 @@ Widget::Widget(QWidget *parent)
     scene->addItem(pixItem); // adds mole_bg
     //qDebug() << pixItem->zValue;
     //pixItem->setPos() // for repositioning BG
-//    pixItem->setAcceptTouchEvents(true);
+    // pixItem->setAcceptTouchEvents(true);
 
 
-    ui -> pointsDisp ->setStyleSheet("color: red;"); //point text
     ui-> graphicsView ->setScene(scene); // game screen
 //    ui->graphicsView->setAcceptTouchEvents(true);
     ui->graphicsView->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);

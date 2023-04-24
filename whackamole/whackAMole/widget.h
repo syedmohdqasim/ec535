@@ -18,6 +18,7 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    void on_startButton_clicked();
 private:
     Ui::Widget *ui;
     Scene *scene;
