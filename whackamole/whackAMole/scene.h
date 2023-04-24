@@ -8,6 +8,7 @@
 #include <QPointF>
 #include <QList>
 #include <QRandomGenerator>
+#include <QFont>
 #include <QGraphicsTextItem>
 
 class Scene : public QGraphicsScene
@@ -17,8 +18,11 @@ public:
     explicit Scene(QGraphicsScene *parent = nullptr);
     void startGame();
     void restartGame();
+    void hideGameOver();
     static QList<QPointF> holePoints;
     static Scene * selfptr;
+    static QGraphicsTextItem * scoreTextItem;
+    static QGraphicsPixmapItem * gameOverPix;
 //    static QMetaObject::Connection connection;
 protected:
     void touchEvent(QTouchEvent *event);
@@ -30,14 +34,12 @@ private:
     int moleTimeDuration;
     QTimer * moleTimer;
     QTimer * gametimer;
-    QGraphicsTextItem * scoreTextItem;
-    QGraphicsPixmapItem * gameOverPix;
+
 
     QMetaObject::Connection connection;
     int finalScore;
 
     void moleHoles();
-    void hideGameOver();
     void showGameOver();
 };
 
