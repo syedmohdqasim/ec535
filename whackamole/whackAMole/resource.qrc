@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/bg.png</file>
+        <file>images/top.png</file>
+        <file>images/bottom.png</file>
+        <file>images/mole.png</file>
+        <file>images/mole_hit.png</file>
+    </qresource>
+</RCC>
