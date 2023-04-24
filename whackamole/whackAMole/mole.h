@@ -24,7 +24,8 @@ public:
 signals:
 
 protected:
-    void touchEvent(QTouchEvent *event); //override
+    bool sceneEvent(QEvent* event) override;
+    void touchEvent(QTouchEvent *event) ; //override
 private:
     QPointF location;
     bool hit; //0 : no, 1: yes
