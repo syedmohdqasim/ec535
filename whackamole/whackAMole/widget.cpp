@@ -30,3 +30,11 @@ Widget::~Widget()
 {
     delete ui;
 }
+
+
+
+void Widget::on_startButton_clicked()
+{
+    qDebug() << "game started";
+    scene->startGame();
+}
