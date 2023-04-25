@@ -59,24 +59,24 @@ void Scene::restartGame(){
 void Scene::showMenu()
 {
     qDebug() << "game menu";
-    Scene::menuPix = new QGraphicsPixmapItem(QPixmap(":/images/gameover.png"));//make image
+    Scene::menuPix = new QGraphicsPixmapItem(QPixmap(":/images/diffmenubg.png"));//make image
     addItem(Scene::menuPix);
-    Scene::menuPix -> setPos(10,30);
+    //Scene::menuPix -> setPos(10,30);
     Scene::menuPix ->setZValue(1);
 
-    Scene::easyButtonPix = new EasyButtonTouchableGraphicsItem(QPixmap(":/images/mole.png"));//make image
+    Scene::easyButtonPix = new EasyButtonTouchableGraphicsItem(QPixmap(":/images/easy.png"));//make image
     addItem(Scene::easyButtonPix);
-    Scene::easyButtonPix ->setPos(150,60);
+    Scene::easyButtonPix ->setPos(30,110);
     Scene::easyButtonPix ->setZValue(1);
 
-    Scene::mediumButtonPix = new MediumButtonTouchableGraphicsItem(QPixmap(":/images/mole.png"));//make image
+    Scene::mediumButtonPix = new MediumButtonTouchableGraphicsItem(QPixmap(":/images/medium.png"));//make image
     addItem(Scene::mediumButtonPix);
-    Scene::mediumButtonPix ->setPos(250,60);
+    Scene::mediumButtonPix ->setPos(160,110);
     Scene::mediumButtonPix ->setZValue(1);
 
-    Scene::hardButtonPix = new HardButtonTouchableGraphicsItem(QPixmap(":/images/mole.png"));//make image
+    Scene::hardButtonPix = new HardButtonTouchableGraphicsItem(QPixmap(":/images/hard.png"));//make image
     addItem(Scene::hardButtonPix);
-    Scene::hardButtonPix ->setPos(345,60);
+    Scene::hardButtonPix ->setPos(310,112);
     Scene::hardButtonPix ->setZValue(1);
 
     Scene::scoreTextItem = new QGraphicsTextItem(); //include class

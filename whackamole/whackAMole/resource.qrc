@@ -1,10 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>images/bg.png</file>
-        <file>images/top.png</file>
-        <file>images/bottom.png</file>
         <file>images/mole.png</file>
         <file>images/mole_hit.png</file>
+        <file>images/diffmenubg.png</file>
+        <file>images/hard.png</file>
+        <file>images/medium.png</file>
+        <file>images/easy.png</file>
         <file>images/gameover.png</file>
     </qresource>
 </RCC>
