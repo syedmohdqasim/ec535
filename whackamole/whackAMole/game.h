@@ -10,6 +10,7 @@ class Game{
 public:
     static int score;
     static int bestScore;
+    static int moleAppearanceDuration;
 
     static void resetScore();
 };

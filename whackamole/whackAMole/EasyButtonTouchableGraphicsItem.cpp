@@ -8,6 +8,7 @@
 #include <QPixmap>
 #include <QEvent>
 #include <QtGui>
+#include "game.h"
 
 
 bool EasyButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
@@ -19,6 +20,7 @@ bool EasyButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
                 QPointF pos = touchPoint.pos();
                 qDebug() << "Touch point id:" << touchPoint.id() << "x:" << pos.x() << "y:" << pos.y();
                 qDebug() << "easy button";
+                Game::moleAppearanceDuration=2000;
             }
         }
     }

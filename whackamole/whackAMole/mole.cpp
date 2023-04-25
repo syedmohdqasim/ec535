@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include "scene.h"
+#include "game.h"
 
 // may need to make a button
 Mole::Mole(QPointF place)
@@ -43,7 +44,7 @@ bool Mole::sceneEvent(QEvent* event)  {
 void Mole::visible(Mole *obj) {
     obj->setVisible(true);
     obj->setAcceptTouchEvents(true);
-    QTimer::singleShot(2000, [=](){ // change this time for slower
+    QTimer::singleShot(Game::moleAppearanceDuration, [=](){ // change this time for slower
         obj->setVisible(false);
         Scene::holePoints.append(location);
         qDebug() << obj->location;

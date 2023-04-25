@@ -19,6 +19,7 @@ bool MediumButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
                 QPointF pos = touchPoint.pos();
                 qDebug() << "Touch point id:" << touchPoint.id() << "x:" << pos.x() << "y:" << pos.y();
                 qDebug() << "Medium button";
+                Game::moleAppearanceDuration=1500;
             }
         }
     }

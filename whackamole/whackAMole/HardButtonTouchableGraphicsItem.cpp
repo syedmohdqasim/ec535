@@ -19,6 +19,7 @@ bool HardButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
                 QPointF pos = touchPoint.pos();
                 qDebug() << "Touch point id:" << touchPoint.id() << "x:" << pos.x() << "y:" << pos.y();
                 qDebug() << "Hard button";
+                Game::moleAppearanceDuration=800;
             }
         }
     }
