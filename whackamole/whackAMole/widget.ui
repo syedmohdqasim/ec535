@@ -35,19 +35,6 @@
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="startButton">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>250</y>
-     <width>481</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Start Game</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>
