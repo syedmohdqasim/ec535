@@ -10,6 +10,9 @@
 #include <QRandomGenerator>
 #include <QFont>
 #include <QGraphicsTextItem>
+#include "MediumButtonTouchableGraphicsItem.h"
+#include "HardButtonTouchableGraphicsItem.h"
+#include "EasyButtonTouchableGraphicsItem.h"
 
 class Scene : public QGraphicsScene
 {
@@ -19,10 +22,17 @@ public:
     void startGame();
     void restartGame();
     void hideGameOver();
+    void showMenu();
+    void hideMenu();
     static QList<QPointF> holePoints;
     static Scene * selfptr;
     static QGraphicsTextItem * scoreTextItem;
     static QGraphicsPixmapItem * gameOverPix;
+    static QGraphicsPixmapItem * menuPix;
+    static EasyButtonTouchableGraphicsItem * easyButtonPix;
+    static HardButtonTouchableGraphicsItem * hardButtonPix;
+    static MediumButtonTouchableGraphicsItem * mediumButtonPix;
+
 //    static QMetaObject::Connection connection;
 protected:
     void touchEvent(QTouchEvent *event);
