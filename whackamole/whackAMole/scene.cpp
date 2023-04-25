@@ -26,6 +26,7 @@ MediumButtonTouchableGraphicsItem * Scene::mediumButtonPix;
 
 void Scene::startGame(){
     Scene::hideGameOver();
+    Scene::hideMenu();
     Scene::moleHoles();
     qDebug() << "start game"<<Scene::selfptr;
     qDebug() << Scene::selfptr;
@@ -107,10 +108,17 @@ void Scene::showGameOver()
 
 void Scene::hideGameOver()
 {
+   if(Scene::gameOverPix != nullptr){
+
+       qDebug() << "to be image hidden";
+       Scene::gameOverPix->setVisible(false);
+   }
+   if(Scene::scoreTextItem != nullptr){
+       Scene::scoreTextItem->setVisible(false);
+   }
+
    //qDebug() << "to be image hidden";
-    Scene::gameOverPix->setVisible(false);
     //qDebug() << "score text hidden";
-    Scene::scoreTextItem->setVisible(false);
 }
 
 void Scene::hideMenu()
