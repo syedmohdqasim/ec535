@@ -25,7 +25,7 @@ Widget::Widget(QWidget *parent)
     ui-> graphicsView ->setScene(scene); // game screen
     ui->graphicsView->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 
-    connect(ui->startButton, &QPushButton::clicked, this, &Widget::on_startButton_clicked);
+    //connect(ui->startButton, &QPushButton::clicked, this, &Widget::on_startButton_clicked);
 
 
 }
@@ -37,10 +37,10 @@ Widget::~Widget()
 }
 
 
-
-void Widget::on_startButton_clicked()
-{
-    qDebug() << "game started";
-    scene->hideGameOver();
-    scene->startGame();
-}
+//
+//void Widget::on_startButton_clicked()
+//{
+//    qDebug() << "game started";
+//    scene->hideGameOver();
+//    scene->startGame();
+//}

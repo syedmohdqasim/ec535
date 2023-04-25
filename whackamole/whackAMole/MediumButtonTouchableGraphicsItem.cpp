@@ -11,6 +11,7 @@
 #include <game.h>
 #include "HardButtonTouchableGraphicsItem.h"
 #include "EasyButtonTouchableGraphicsItem.h"
+#include "scene.h"
 
 MediumButtonTouchableGraphicsItem * MediumButtonTouchableGraphicsItem::selfptr;
 
@@ -30,6 +31,8 @@ bool MediumButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
                 Game::moleAppearanceDuration=1500;
                 EasyButtonTouchableGraphicsItem::hide();
                 HardButtonTouchableGraphicsItem::hide();
+                Scene::selfptr->hideGameOver();
+                Scene::selfptr->startGame();
             }
         }
     }
