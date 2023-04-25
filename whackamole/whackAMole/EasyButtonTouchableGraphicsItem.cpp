@@ -31,6 +31,7 @@ bool EasyButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
                 HardButtonTouchableGraphicsItem::hide();
                 Scene::selfptr->hideGameOver();
                 Scene::selfptr->startGame();
+                // hide itself once pressed
             }
         }
     }
