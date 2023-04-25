@@ -9,6 +9,15 @@
 #include <QEvent>
 #include <QtGui>
 #include <game.h>
+#include "EasyButtonTouchableGraphicsItem.h"
+#include "MediumButtonTouchableGraphicsItem.h"
+
+
+HardButtonTouchableGraphicsItem * HardButtonTouchableGraphicsItem::selfptr;
+
+void HardButtonTouchableGraphicsItem::hide(){
+HardButtonTouchableGraphicsItem::selfptr ->setVisible(false);
+}
 
 bool HardButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
         //qDebug() << "some event";
@@ -20,6 +29,8 @@ bool HardButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
                 qDebug() << "Touch point id:" << touchPoint.id() << "x:" << pos.x() << "y:" << pos.y();
                 qDebug() << "Hard button";
                 Game::moleAppearanceDuration=800;
+                EasyButtonTouchableGraphicsItem::hide();
+                MediumButtonTouchableGraphicsItem::hide();
             }
         }
     }

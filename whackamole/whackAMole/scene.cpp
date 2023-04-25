@@ -34,7 +34,7 @@ void Scene::startGame(){
     qDebug() << Scene::selfptr;
     Scene::selfptr->setUpMoleTimer();
     qDebug() << "new game timer";
-     QTimer::singleShot(3000, [=](){ // change this time for slower
+     QTimer::singleShot(30000, [=](){ // change this time for slower
          //qDebug() << "game timer expired";
          Scene::selfptr->restartGame();
      });
