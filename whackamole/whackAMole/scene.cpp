@@ -91,7 +91,7 @@ void Scene::showGameOver()
     qDebug() << "game over";
     Scene::gameOverPix = new QGraphicsPixmapItem(QPixmap(":/images/gameover.png"));//make image
     addItem(Scene::gameOverPix);
-    Scene::gameOverPix -> setPos(10,30);
+    Scene::gameOverPix -> setPos(10,10);
    Scene::scoreTextItem = new QGraphicsTextItem(); //include class
     // make sure that these are existing
 
@@ -104,6 +104,12 @@ void Scene::showGameOver()
    Scene::scoreTextItem ->setDefaultTextColor(Qt::white);
    addItem(Scene::scoreTextItem);
    // set under item
+   QTimer::singleShot(2000, [=](){ // change this time for slower
+       qDebug() << "game over timer expired";
+       Scene::selfptr->hideGameOver();
+       Scene::selfptr->showMenu();
+   });
+
 }
 
 void Scene::hideGameOver()
