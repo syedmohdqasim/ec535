@@ -1,9 +1,15 @@
 //
 // Created by sqasim on 4/23/23.
 //
+#ifndef EASYBUTTONTOUCHABLEGRAPHICSITEM_H
+#define EASYBUTTONTOUCHABLEGRAPHICSITEM_H
+#endif //EASYBUTTONTOUCHABLEGRAPHICSITEM_H
+
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 #include <QPixmap>
+
+
 
 class EasyButtonTouchableGraphicsItem : public QGraphicsPixmapItem {
 public:

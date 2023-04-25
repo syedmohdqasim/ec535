@@ -1,6 +1,8 @@
 #include "scene.h"
 
 #include <QDebug>
+#include <game.h>
+
 
 Scene::Scene(QGraphicsScene *parent)
     : QGraphicsScene{parent}

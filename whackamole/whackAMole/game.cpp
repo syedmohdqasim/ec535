@@ -4,7 +4,7 @@
 #include "game.h"
 int Game::score = 0;
 int Game::bestScore = 0;
-int moleAppearanceDuration=0;
+int Game::moleAppearanceDuration=0;
 
 void Game::resetScore(){
     if(Game::score > Game::bestScore){

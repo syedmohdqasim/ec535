@@ -8,7 +8,8 @@
 #include <QPixmap>
 #include <QEvent>
 #include <QtGui>
-#include "game.h"
+#include <game.h>
+
 
 
 bool EasyButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {

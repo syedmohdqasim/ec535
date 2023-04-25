@@ -8,6 +8,7 @@
 #include <QPixmap>
 #include <QEvent>
 #include <QtGui>
+#include <game.h>
 
 
 bool MediumButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {

@@ -8,7 +8,7 @@
 #include <QPixmap>
 #include <QEvent>
 #include <QtGui>
-
+#include <game.h>
 
 bool HardButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
         //qDebug() << "some event";

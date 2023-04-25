@@ -9,7 +9,7 @@
 #include <QPropertyAnimation>
 #include <QGraphicsSceneMouseEvent> //not necessary
 #include <QTouchEvent>
-#include "game.h"
+
 
 class Mole : public QObject, public QGraphicsPixmapItem
 {

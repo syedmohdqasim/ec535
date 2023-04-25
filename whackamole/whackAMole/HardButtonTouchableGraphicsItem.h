@@ -1,9 +1,17 @@
 //
 // Created by sqasim on 4/23/23.
 //
+
+#ifndef HARDBUTTONTOUCHABLEGRAPHICSITEM_H
+#define HARDBUTTONTOUCHABLEGRAPHICSITEM_H
+#endif //HARDBUTTONTOUCHABLEGRAPHICSITEM_H
+
+
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 #include <QPixmap>
+
+
 
 class HardButtonTouchableGraphicsItem : public QGraphicsPixmapItem {
 public:

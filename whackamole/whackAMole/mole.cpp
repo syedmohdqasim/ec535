@@ -2,7 +2,7 @@
 
 #include <QDebug>
 #include "scene.h"
-#include "game.h"
+#include <game.h>
 
 // may need to make a button
 Mole::Mole(QPointF place)
