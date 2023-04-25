@@ -12,7 +12,9 @@ SOURCES += \
     main.cpp \
     game.cpp \
     mole.cpp \
-    TouchableGraphicsItem.cpp \
+    EasyButtonTouchableGraphicsItem.cpp \
+    HardButtonTouchableGraphicsItem.cpp \
+    MediumButtonTouchableGraphicsItem.cpp \
     scene.cpp \
     widget.cpp
 
@@ -21,7 +23,9 @@ HEADERS += \
     mole.h \
     scene.h \
     Game.h \
-    TouchableGraphicsItem.h \
+    EasyButtonTouchableGraphicsItem.h \
+    HardButtonTouchableGraphicsItem.h \
+    MediumButtonTouchableGraphicsItem.h \
     widget.h
 
 FORMS += \

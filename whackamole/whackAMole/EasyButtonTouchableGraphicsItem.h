@@ -5,9 +5,9 @@
 #include <QGraphicsScene>
 #include <QPixmap>
 
-class TouchableGraphicsItem : public QGraphicsPixmapItem {
+class EasyButtonTouchableGraphicsItem : public QGraphicsPixmapItem {
 public:
-    explicit TouchableGraphicsItem(const QPixmap& pixmap):QGraphicsPixmapItem(pixmap){
+    explicit EasyButtonTouchableGraphicsItem(const QPixmap& pixmap):QGraphicsPixmapItem(pixmap){
     setAcceptTouchEvents(true);
 };
 protected:
