@@ -10,3 +10,11 @@ To Compile: qmake
 To run: ./whackAMole
  
 
+![](whackAMole/whackaMole.png)
+
+![](whackAMole/gameScreen.png)
+
+![](whackAMole/gameOver.png)
+
+
+
