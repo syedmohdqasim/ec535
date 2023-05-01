@@ -31,6 +31,7 @@ bool HardButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
                 Game::moleAppearanceDuration=800;
                 EasyButtonTouchableGraphicsItem::hide();
                 MediumButtonTouchableGraphicsItem::hide();
+                HardButtonTouchableGraphicsItem::hide();
                 Scene::selfptr->hideGameOver();
                 Scene::selfptr->startGame();
             }

@@ -27,6 +27,8 @@ bool EasyButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
                 qDebug() << "Touch point id:" << touchPoint.id() << "x:" << pos.x() << "y:" << pos.y();
                 qDebug() << "easy button";
                 Game::moleAppearanceDuration=2000;
+
+                EasyButtonTouchableGraphicsItem::hide();
                 MediumButtonTouchableGraphicsItem::hide();
                 HardButtonTouchableGraphicsItem::hide();
                 Scene::selfptr->hideGameOver();
