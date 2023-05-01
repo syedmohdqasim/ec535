@@ -166,6 +166,8 @@ void Scene::touchEvent(QTouchEvent *event)
     qDebug() << "touch pressed";
 }
 
+
+//returns the mole holes/ their positions.
 void Scene::moleHoles(){
     //QList<QPointF> holePoints;
     Scene::holePoints.append(QPointF(50, 60));

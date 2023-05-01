@@ -1,7 +1,7 @@
 #include "widget.h"
 #include <QApplication>
 
-//leave alone
+//create widget
 
 int main(int argc, char *argv[])
 {

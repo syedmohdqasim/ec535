@@ -6,6 +6,8 @@
 #define WHACKAMOLE_GAME_H
 
 #endif //WHACKAMOLE_GAME_H
+
+//class that maintains score and best score
 class Game{
 public:
     static int score;

@@ -24,7 +24,7 @@ Widget::Widget(QWidget *parent)
     scene->addItem(pixItem); // adds mole_bg
 
     ui-> graphicsView ->setScene(scene); // game screen
-    ui->graphicsView->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+    ui->graphicsView->viewport()->setAttribute(Qt::WA_AcceptTouchEvents); //make it accept touch events
 
     //connect(ui->startButton, &QPushButton::clicked, this, &Widget::on_startButton_clicked);
 
@@ -38,10 +38,3 @@ Widget::~Widget()
 }
 
 
-//
-//void Widget::on_startButton_clicked()
-//{
-//    qDebug() << "game started";
-//    scene->hideGameOver();
-//    scene->startGame();
-//}

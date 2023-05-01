@@ -17,6 +17,9 @@ Mole::Mole(QPointF place)
     visible(this);
 }
 
+
+//called when mole is whacked/touched.
+
 bool Mole::sceneEvent(QEvent* event)  {
     qDebug() << "some event mole touch";
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
@@ -33,14 +36,11 @@ bool Mole::sceneEvent(QEvent* event)  {
             }
         }
     }
-//        if(event->type()==QEvent::TouchBegin){
 
-
-//            qDebug() << "some touch event";
-//            return true;
-//        }
     return QGraphicsPixmapItem::sceneEvent(event);
 };
+
+//method that makes mole visible for some duration.
 void Mole::visible(Mole *obj) {
     obj->setVisible(true);
     obj->setAcceptTouchEvents(true);
@@ -52,25 +52,7 @@ void Mole::visible(Mole *obj) {
     });
 }
 
-/*
-void mole::onAnimationFinished() {
-    QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
-    animation->setDuration(1000);
-    animation->setStartValue(1.0);
-    animation->setEndValue(0.0);
-    animation->setEasingCurve(QEasingCurve::InQuad);
-    connect(animation, &QPropertyAnimation::finished, this, &mole::onAnimationFinished2);
-    animation->start();
-    setEnabled(false); // disable the item when it is spinning
-}
 
-void mole::onAnimationFinished2() {
-    setVisible(false); // hide the item after it disappears // neeed a timer herer
-    setEnabled(true); // re-enable the item when it is hidden
-    scene()->removeItem(this);
-    delete this;
-}
-*/
 
 void Mole::touchEvent(QTouchEvent* event) {
     if (!isVisible()) { // if the item is disabled, do nothing
