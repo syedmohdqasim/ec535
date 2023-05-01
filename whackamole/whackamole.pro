@@ -10,13 +10,31 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    pause.cpp
+    game.cpp \
+    mole.cpp \
+    EasyButtonTouchableGraphicsItem.cpp \
+    HardButtonTouchableGraphicsItem.cpp \
+    MediumButtonTouchableGraphicsItem.cpp \
+    scene.cpp \
+    widget.cpp
 
-HEADERS +=
+HEADERS += \
+    game.h \
+    mole.h \
+    scene.h \
+    Game.h \
+    EasyButtonTouchableGraphicsItem.h \
+    HardButtonTouchableGraphicsItem.h \
+    MediumButtonTouchableGraphicsItem.h \
+    widget.h
 
-FORMS +=
+FORMS += \
+    widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc

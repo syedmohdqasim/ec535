@@ -1,6 +1,4 @@
-//
-// Created by sqasim on 4/23/23.
-//
+
 #include "MediumButtonTouchableGraphicsItem.h"
 #include <QDebug>
 #include <QGraphicsPixmapItem>
@@ -19,6 +17,7 @@ void MediumButtonTouchableGraphicsItem::hide(){
     MediumButtonTouchableGraphicsItem::selfptr ->setVisible(false);
 }
 
+//method called on pressing easy button
 bool MediumButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
         //qDebug() << "some event";
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {

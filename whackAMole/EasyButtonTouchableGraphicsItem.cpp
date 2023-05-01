@@ -1,7 +1,5 @@
-//
-// Created by sqasim on 4/23/23.
-//
-#include "HardButtonTouchableGraphicsItem.h"
+
+#include "EasyButtonTouchableGraphicsItem.h"
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
@@ -9,31 +7,33 @@
 #include <QEvent>
 #include <QtGui>
 #include <game.h>
-#include "EasyButtonTouchableGraphicsItem.h"
 #include "MediumButtonTouchableGraphicsItem.h"
+#include "HardButtonTouchableGraphicsItem.h"
 #include "scene.h"
 
-HardButtonTouchableGraphicsItem * HardButtonTouchableGraphicsItem::selfptr;
-
-void HardButtonTouchableGraphicsItem::hide(){
-HardButtonTouchableGraphicsItem::selfptr ->setVisible(false);
+EasyButtonTouchableGraphicsItem * EasyButtonTouchableGraphicsItem::selfptr;
+void EasyButtonTouchableGraphicsItem::hide(){
+EasyButtonTouchableGraphicsItem::selfptr ->setVisible(false);
 }
 
-bool HardButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
-        //qDebug() << "some event";
+//method called on pressing easy button
+bool EasyButtonTouchableGraphicsItem::sceneEvent(QEvent* event)  {
+       // qDebug() << "some event";
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
         QTouchEvent* touchEvent = static_cast<QTouchEvent*>(event);
         for (const QTouchEvent::TouchPoint& touchPoint : touchEvent->touchPoints()) {
             if (touchPoint.state() == Qt::TouchPointPressed || touchPoint.state() == Qt::TouchPointMoved || touchPoint.state() == Qt::TouchPointStationary) {
                 QPointF pos = touchPoint.pos();
                 qDebug() << "Touch point id:" << touchPoint.id() << "x:" << pos.x() << "y:" << pos.y();
-                qDebug() << "Hard button";
-                Game::moleAppearanceDuration=800;
+                qDebug() << "easy button";
+                Game::moleAppearanceDuration=2000;
+
                 EasyButtonTouchableGraphicsItem::hide();
                 MediumButtonTouchableGraphicsItem::hide();
                 HardButtonTouchableGraphicsItem::hide();
                 Scene::selfptr->hideGameOver();
                 Scene::selfptr->startGame();
+                // hide itself once pressed
             }
         }
     }
